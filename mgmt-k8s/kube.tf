@@ -13,9 +13,9 @@ module "kube-hetzner" {
   # could adapt them to your needs.
 
   # * For local dev, path to the git repo
-  source = "../../../kube-hetzner/"
+  #source = "../../../kube-hetzner/"
   # For normal use, this is the path to the terraform registry
-  #source = "kube-hetzner/kube-hetzner/hcloud"
+  source = "git::https://github.com/oujonny/kube-hetzner.git?ref=feat/ccm_default_lb_location"
   # you can optionally specify a version number
   # version = "1.2.0"
 
@@ -24,7 +24,7 @@ module "kube-hetzner" {
   # those, you should instead change the value here and manually re-provision each node. Grep for "lifecycle".
 
   # * Your ssh public key
-  ssh_public_key = file("/Users/jonny/Nextcloud/Business/ounu.ch/id_ed25519.pub")
+  ssh_public_key = var.ssh_public_key
   # * Your private key must be "ssh_private_key = null" when you want to use ssh-agent for a Yubikey-like device authentification or an SSH key-pair with a passphrase.
   # For more details on SSH see https://github.com/kube-hetzner/kube-hetzner/blob/master/docs/ssh.md
   ssh_private_key = null

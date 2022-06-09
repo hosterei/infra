@@ -1,3 +1,14 @@
+terraform {
+  cloud {
+    organization = "hosterei"
+
+    workspaces {
+      name = "mgmt-k8s"
+    }
+  }
+}
+
+
 ###################
 #  fetch secrets  #
 ###################
@@ -11,6 +22,10 @@ variable "vault_login_password" {
   sensitive = true
 }
 
+variable "ssh_public_key" {
+  default   = ""
+  sensitive = true
+}
 
 provider "vault" {
   address = "https://vault.ounu.ch"
