@@ -22,3 +22,6 @@ variable "ssh_public_key" {
 data "vault_generic_secret" "hetzner_tokens" {
   path = "ounu/hetzner/tokens"
 }
+data "vault_generic_secret" "ssh" {
+  path = "ounu/mgmt/k8s/ssh"
+}

@@ -24,10 +24,10 @@ module "kube-hetzner" {
   # those, you should instead change the value here and manually re-provision each node. Grep for "lifecycle".
 
   # * Your ssh public key
-  ssh_public_key = var.ssh_public_key
+  ssh_public_key = data.vault_generic_secret.ssh.data["publicKey"]
   # * Your private key must be "ssh_private_key = null" when you want to use ssh-agent for a Yubikey-like device authentification or an SSH key-pair with a passphrase.
   # For more details on SSH see https://github.com/kube-hetzner/kube-hetzner/blob/master/docs/ssh.md
-  ssh_private_key = null
+  ssh_private_key = data.vault_generic_secret.ssh.data["privateKey"]
   # You can add additional SSH public Keys to grant other team members root access to your cluster nodes.
   # ssh_additional_public_keys = []
 
