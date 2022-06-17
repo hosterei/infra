@@ -1,10 +1,14 @@
-name: "Terraform Mgmt-Gitlab"
+name: "terraform mgmt-gitlab"
 
 on:
   push:
     branches:
       - main
+    paths:
+      - "mgmt-gitlab/*"
   pull_request:
+    paths:
+    - "mgmt-gitlab/*"
 
 jobs:
   terraform:

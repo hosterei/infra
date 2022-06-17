@@ -1,10 +1,14 @@
-name: "Terraform Mgmt-Kubernetes"
+name: "terraform mgmt-k8s"
 
 on:
   push:
     branches:
       - main
+    paths:
+      - "mgmt-k8s/*"
   pull_request:
+    paths:
+    - "mgmt-k8s/*"
 
 jobs:
   terraform:

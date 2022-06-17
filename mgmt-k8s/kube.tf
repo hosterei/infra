@@ -48,7 +48,7 @@ module "kube-hetzner" {
     {
       name        = "control-plane-fsn1",
       server_type = "cpx11",
-      location    = "fsn1",
+      location    = "nbg1",
       labels      = [],
       taints      = [],
       count       = 1
@@ -59,7 +59,7 @@ module "kube-hetzner" {
     {
       name        = "agent-small",
       server_type = "cpx21",
-      location    = "fsn1",
+      location    = "nbg1",
       labels      = [],
       taints      = [],
       count       = 2

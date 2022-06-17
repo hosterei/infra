@@ -11,11 +11,6 @@ variable "vault_login_password" {
   sensitive = true
 }
 
-variable "ssh_public_key" {
-  default   = ""
-  sensitive = true
-}
-
 ###################
 #  fetch secrets  #
 ###################
