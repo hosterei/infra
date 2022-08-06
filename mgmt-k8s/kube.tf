@@ -15,7 +15,7 @@ module "kube-hetzner" {
   # * For local dev, path to the git repo
   #source = "../../../kube-hetzner/"
   # For normal use, this is the path to the terraform registry
-  source = "git::https://github.com/oujonny/kube-hetzner.git?ref=feat/ccm_default_lb_location"
+  source = "git::https://github.com/oujonny/kube-hetzner.git?ref=feat/generic_post_deployment"
   # you can optionally specify a version number
   # version = "1.2.0"
 
@@ -47,7 +47,7 @@ module "kube-hetzner" {
   control_plane_nodepools = [
     {
       name        = "control-plane-fsn1",
-      server_type = "cpx11",
+      server_type = "cpx21",
       location    = "nbg1",
       labels      = [],
       taints      = [],
@@ -90,8 +90,12 @@ module "kube-hetzner" {
   # The cluster name, by default "k3s"
   cluster_name = "mgmt-k8s"
 
-  # Whether to use the cluster name in the node name, in the form of {cluster_name}-{nodepool_name}, the default is "true".
-  use_cluster_name_in_node_name = false
+  # post deployment 
+  generic_post_deployments = [
+    data.github_repository_file.argocd_ha_install,
+    data.github_repository_file.argocd_vault_repo_server,
+    data.github_repository_file.argocd_vault_cm
+  ]
 }
 
 provider "hcloud" {
