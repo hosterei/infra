@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: hosterei-local
+  namespace: argocd
+  # Finalizer that ensures that project is not deleted until it is not referenced by any application
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  # Project description
+  description: Hosterei Local base AppProject
+
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - "https://github.com/hosterei/tools.git"
+
+  destinations:
+  - namespace: "*"
+    server: https://kubernetes.default.svc
+
+
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: "*"

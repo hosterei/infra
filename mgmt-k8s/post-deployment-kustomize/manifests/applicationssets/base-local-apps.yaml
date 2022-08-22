@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: hosterei-base
+  namespace: argocd
+spec:
+  generators:
+  - git:
+      repoURL: https://github.com/hosterei/tools.git
+      revision: main
+      directories:
+      - path: base/*
+  template:
+    metadata:
+      name: '{{path.basename}}'
+    spec:
+      project: "hosterei-local"
+      source:
+        repoURL: https://github.com/hosterei/tools.git
+        targetRevision: main
+        path: '{{path}}'
+        plugin:
+          name: argocd-lovely-plugin
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{path.basename}}'
+      syncPolicy:
+        automated:
+          prune: true
+          allowEmpty: true
+        syncOptions:
+        - CreateNamesapce=true
+        
