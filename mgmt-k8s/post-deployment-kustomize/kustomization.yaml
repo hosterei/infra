@@ -4,23 +4,5 @@ kind: Kustomization
 namespace: argocd
 
 resources:
-
-# argocd with argocd-lovelvy und vault plugin
-- https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/ha/install.yaml
-
-# argocd projects & applicationssets
-- ./manifests/
-
-patches:
-  - path: patches/argo-cm.yml
-    target:
-      kind: ConfigMap
-      name: argocd-cm
-  - path: patches/argocd-lovely-plugin.yml
-    target:
-      kind: Deployment
-      name: argocd-repo-server
-  - path: patches/argocd-vault-replacer.yml
-    target:
-      kind: Deployment
-      name: argocd-repo-server
+  # upstream repo
+  - "https://github.com/hosterei/gitops/"

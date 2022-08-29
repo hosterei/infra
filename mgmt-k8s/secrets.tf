@@ -31,3 +31,24 @@ data "vault_generic_secret" "hetzner_tokens" {
 data "vault_generic_secret" "ssh" {
   path = "ounu/mgmt/k8s/ssh"
 }
+
+#####################
+# upload kubeconfig #
+#####################
+resource "vault_mount" "ounu" {
+  path        = "ounu"
+  type        = "kv"
+  options     = { version = "2" }
+}
+
+resource "vault_kv_secret_v2" "kubeconfig" {
+  mount                      = vault_mount.ounu.path
+  name                       = "secret"
+  cas                        = 1
+  delete_all_versions        = false
+  data_json                  = jsonencode(
+  {
+    kubeconfig       = "${module.kube-hetzner.kubeconfig_file}"
+  }
+  )
+}

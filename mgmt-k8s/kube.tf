@@ -58,9 +58,6 @@ module "kube-hetzner" {
   # If you want to disable the Traefik ingress controller, you can can set this to "false". Default is "true".
   traefik_enabled = false
 
-  # If you want to disable the metric server, you can! Default is "true".
-  metrics_server_enabled = false
-
   # If you want to allow non-control-plane workloads to run on the control-plane nodes, set "true" below. The default is "false".
   # True by default for single node clusters.
   allow_scheduling_on_control_plane = true
