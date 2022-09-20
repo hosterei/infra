@@ -19,7 +19,7 @@ module "kube-hetzner" {
   # For normal use, this is the path to the terraform registry
   source = "kube-hetzner/kube-hetzner/hcloud"
   # you can optionally specify a version number
-  # version = "1.2.0"
+  version = "1.4.6"
 
 
   # * Your ssh public key
@@ -58,9 +58,8 @@ module "kube-hetzner" {
   # If you want to disable the Traefik ingress controller, you can can set this to "false". Default is "true".
   traefik_enabled = false
 
-  # If you want to allow non-control-plane workloads to run on the control-plane nodes, set "true" below. The default is "false".
-  # True by default for single node clusters.
-  allow_scheduling_on_control_plane = true
+  # Disable metrics server, because promehteus component is used
+  metrics_server_enabled = false
 
 }
 
