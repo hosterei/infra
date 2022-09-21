@@ -10,4 +10,8 @@ data "kustomization" "post_deployment_kustomize" {
 resource "kustomization_resource" "argocd" {
   for_each = data.kustomization.post_deployment_kustomize.ids
   manifest = data.kustomization.post_deployment_kustomize.manifests[each.value]
+
+  depends_on = [
+    module.kube-hetzner.kubeconfig_file
+  ]
 }
