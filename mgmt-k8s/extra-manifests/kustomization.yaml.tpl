@@ -3,4 +3,4 @@ kind: Kustomization
 
 resources:
   # upstream repo
-  - "https://github.com/hosterei/gitops/"
+  - "https://github.com/hosterei/gitops.git/"

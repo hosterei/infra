@@ -1,8 +1,7 @@
 locals {
   # Fill first and foremost your Hetzner API token, found in your project, Security, API Token, of type Read & Write.
-  hcloud_token = data.vault_generic_secret.hetzner_tokens.data["hcloud_token"]
+  hcloud_token = var.hcloud_token
 }
-
 module "kube-hetzner" {
   providers = {
     hcloud = hcloud
@@ -19,47 +18,78 @@ module "kube-hetzner" {
   # For normal use, this is the path to the terraform registry
   source = "kube-hetzner/kube-hetzner/hcloud"
   # you can optionally specify a version number
-  version = "1.4.6"
+  # version = "1.6.9"
 
 
   # * Your ssh public key
-  ssh_public_key = data.vault_generic_secret.ssh.data["publicKey"]
-  ssh_private_key = data.vault_generic_secret.ssh.data["privateKey"]
+  ssh_public_key = file("/Users/oujonny/Nextcloud/Business/oujonny/ounu.ch/id_ed25519.pub")
+  ssh_private_key = null
 
   # * For Hetzner locations see https://docs.hetzner.com/general/others/data-centers-and-connection/
   network_region = "eu-central" # change to `us-east` if location is ash
 
   control_plane_nodepools = [
+    # {
+    #   name        = "control-plane-nbg1",
+    #   server_type = "cp21",
+    #   location    = "nbg1",
+    #   labels      = [],
+    #   taints      = [],
+    #   count       = 2
+    # },
     {
       name        = "control-plane-fsn1",
       server_type = "cpx21",
       location    = "nbg1",
       labels      = [],
       taints      = [],
-      count       = 3
+      count       = 1
     }
   ]
 
   agent_nodepools = [
     {
-      name        = "agent-small",
-      server_type = "cpx21",
+      name        = "hosterei-wrk-0",
+      server_type = "cx21",
       location    = "nbg1",
       labels      = [],
       taints      = [],
       count       = 3
+    },
+    {
+      name        = "hosterei-mgmt",
+      server_type = "cpx11",
+      location    = "nbg1",
+      labels = [
+        "node.kubernetes.io/server-usage=mgmt"
+      ],
+      taints = [
+        "server-usage=mgmt:PreferNoSchedule"
+      ],
+      count       = 1
     }
   ]
 
+  # Cluster Autoscaler
+  # Providing at least one map for the array enables the cluster autoscaler feature, default is disabled
+  # Please note that the autoscaler should not be used with initial_k3s_channel < "v1.25". So ideally lock it to "v1.25".
+  # * Example below:
+  autoscaler_nodepools = [
+    {
+      name        = "autoscaler"
+      server_type = "cp21" # must be same or better than the control_plane server type (regarding disk size)!
+      location    = "nbg1"
+      min_nodes   = 0
+      max_nodes   = 5
+    }
+  ] 
+
   # * LB location and type, the latter will depend on how much load you want it to handle, see https://www.hetzner.com/cloud/load-balancer
   load_balancer_type     = "lb11"
-  load_balancer_location = "fsn1"
+  load_balancer_location = "nbg1"
 
   # If you want to disable the Traefik ingress controller, you can can set this to "false". Default is "true".
-  traefik_enabled = false
-
-  # Disable metrics server, because promehteus component is used
-  metrics_server_enabled = false
+  ingress_controller = "none"
 
 }
 
@@ -68,25 +98,11 @@ provider "hcloud" {
 }
 
 terraform {
-    cloud {
-    organization = "hosterei"
-
-    workspaces {
-      name = "mgmt-k8s"
-    }
-  }
-  required_version = ">= 1.2.0"
+  required_version = ">= 1.3.3"
   required_providers {
     hcloud = {
       source  = "hetznercloud/hcloud"
-      version = ">= 1.35.1"
-    }
-    kustomization = {
-      source = "kbst/kustomization"
-      version = ">= 0.9.0"
-    }
-    vault = {
-      source = "hashicorp/vault"
+      version = ">= 1.35.2"
     }
   }
 }
