@@ -1,6 +1,6 @@
 locals {
   # Fill first and foremost your Hetzner API token, found in your project, Security, API Token, of type Read & Write.
-  hcloud_token = var.hcloud_token
+  hcloud_token = data.aws_ssm_parameter.hcloud_token.value
 }
 module "kube-hetzner" {
   providers = {
@@ -22,7 +22,7 @@ module "kube-hetzner" {
 
 
   # * Your ssh public key
-  ssh_public_key = file("/Users/oujonny/Nextcloud/Business/oujonny/ounu.ch/id_ed25519.pub")
+  ssh_public_key  = file("/Users/oujonny/Nextcloud/Business/oujonny/ounu.ch/id_ed25519.pub")
   ssh_private_key = null
 
   # * For Hetzner locations see https://docs.hetzner.com/general/others/data-centers-and-connection/
@@ -66,7 +66,7 @@ module "kube-hetzner" {
       taints = [
         "server-usage=mgmt:PreferNoSchedule"
       ],
-      count       = 1
+      count = 1
     }
   ]
 
@@ -82,7 +82,7 @@ module "kube-hetzner" {
       min_nodes   = 0
       max_nodes   = 5
     }
-  ] 
+  ]
 
   # * LB location and type, the latter will depend on how much load you want it to handle, see https://www.hetzner.com/cloud/load-balancer
   load_balancer_type     = "lb11"
