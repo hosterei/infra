@@ -2,6 +2,7 @@ locals {
   # Fill first and foremost your Hetzner API token, found in your project, Security, API Token, of type Read & Write.
   hcloud_token = data.aws_ssm_parameter.hcloud_token.value
 }
+
 module "kube-hetzner" {
   providers = {
     hcloud = hcloud
@@ -22,8 +23,11 @@ module "kube-hetzner" {
 
 
   # * Your ssh public key
-  ssh_public_key  = file("/Users/oujonny/Nextcloud/Business/oujonny/ounu.ch/id_ed25519.pub")
-  ssh_private_key = null
+  ssh_public_key  = data.aws_ssm_parameter.ssh_public_key.value
+  ssh_private_key = data.aws_ssm_parameter.ssh_private_key.value
+
+  # disblae local kubeconfig. The kubeconfig file can instead be created by executing: "terraform output --raw kubeconfig > cluster_kubeconfig.yaml"
+  create_kubeconfig = false
 
   # * For Hetzner locations see https://docs.hetzner.com/general/others/data-centers-and-connection/
   network_region = "eu-central" # change to `us-east` if location is ash
@@ -93,16 +97,5 @@ module "kube-hetzner" {
 
 }
 
-provider "hcloud" {
-  token = local.hcloud_token
-}
 
-terraform {
-  required_version = ">= 1.3.3"
-  required_providers {
-    hcloud = {
-      source  = "hetznercloud/hcloud"
-      version = ">= 1.35.2"
-    }
-  }
-}
+

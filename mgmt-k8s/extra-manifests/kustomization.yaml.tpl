@@ -4,3 +4,24 @@ kind: Kustomization
 resources:
   # upstream repo
   - "https://github.com/hosterei/gitops.git/"
+
+patchesStrategicMerge:
+  - |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: argocd-repo-server
+    spec:
+      template:
+        spec:
+          containers:
+            - name: argocd-repo-server
+              env:
+                - name: AVP_TYPE
+                  value: awsssmparameterstore
+                - name: AWS_REGION
+                  value: eu-central-1
+                - name: AWS_ACCESS_KEY_ID
+                  value: "${var.AWS_ACCESS_KEY_ID}"
+                - name: AWS_SECRET_ACCESS_KEY
+                  value: "${var.AWS_SECRET_ACCESS_KEY}"
