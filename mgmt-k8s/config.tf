@@ -22,14 +22,19 @@ provider "hcloud" {
 
 ## AWS
 variable "AWS_ACCESS_KEY_ID" {
-  sensitive: true
-  default = ""
+  description = "The AWS Access Key ID"
+  type        = string
+  default     = ""
+  sensitive   = true
 }
 
 variable "AWS_SECRET_ACCESS_KEY" {
-  sensitive: true
-  default = ""
+  description = "The AWS SECRET Key"
+  type        = string
+  default     = ""
+  sensitive   = true
 }
+
 provider "aws" {
   access_key = var.AWS_ACCESS_KEY_ID
   secret_key = var.AWS_SECRET_ACCESS_KEY
