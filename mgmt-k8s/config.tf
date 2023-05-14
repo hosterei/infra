@@ -20,23 +20,7 @@ provider "hcloud" {
   token = local.hcloud_token
 }
 
-## AWS
-variable "AWS_ACCESS_KEY_ID" {
-  description = "The AWS Access Key ID"
-  type        = string
-  default     = ""
-  sensitive   = true
-}
-
-variable "AWS_SECRET_ACCESS_KEY" {
-  description = "The AWS SECRET Key"
-  type        = string
-  default     = ""
-  sensitive   = true
-}
-
 provider "aws" {
-  access_key = var.AWS_ACCESS_KEY_ID
-  secret_key = var.AWS_SECRET_ACCESS_KEY
+  region = "eu-central-1"
 
 }
