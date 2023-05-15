@@ -1,23 +1,16 @@
-variable "AWS_SECRET_ACCESS_KEY" {
-  sentistive = true
-  default    = ""
-}
-variable "AWS_ACCESS_KEY_ID" {
-  sensitive = true
-  default   = ""
-}
-variable "extra_kustomize_parameters" {
-  sensitive = true
-  default = {
-    AWS_ACCESS_KEY_ID : var.AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY : var.AWS_SECRET_ACCESS_KEY
-  }
-}
 locals {
   # Fill first and foremost your Hetzner API token, found in your project, Security, API Token, of type Read & Write.
   hcloud_token = data.aws_ssm_parameter.hcloud_token.value
 }
 
+variable "AWS_ACCESS_KEY_ID" {
+  default   = ""
+  sensitive = true
+}
+variable "AWS_SECRET_ACCESS_KEY" {
+  default   = ""
+  sensitive = true
+}
 module "kube-hetzner" {
   providers = {
     hcloud = hcloud
@@ -42,7 +35,8 @@ module "kube-hetzner" {
   ssh_private_key = data.aws_ssm_parameter.ssh_private_key.value
 
   # disblae local kubeconfig. The kubeconfig file can instead be created by executing: "terraform output --raw kubeconfig > cluster_kubeconfig.yaml"
-  create_kubeconfig = false
+  create_kubeconfig    = false
+  create_kustomization = false
 
   # * For Hetzner locations see https://docs.hetzner.com/general/others/data-centers-and-connection/
   network_region = "eu-central" # change to `us-east` if location is ash
@@ -109,6 +103,12 @@ module "kube-hetzner" {
 
   # If you want to disable the Traefik ingress controller, you can can set this to "false". Default is "true".
   ingress_controller = "none"
+
+  #
+  extra_kustomize_parameters = {
+    AWS_ACCESS_KEY_ID     = var.AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY = var.AWS_SECRET_ACCESS_KEY
+  }
 }
 
 
