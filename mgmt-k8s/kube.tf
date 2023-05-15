@@ -1,9 +1,17 @@
+variable "AWS_SECRET_ACCESS_KEY" {
+  sentistive = true
+  default    = ""
+}
+variable "AWS_ACCESS_KEY_ID" {
+  sensitive = true
+  default   = ""
+}
 variable "extra_kustomize_parameters" {
   sensitive = true
-  default   = {}
-}
-variable "decoded_extra_kustomize_parameters" {
-  default = jsondecode(var.extra_kustomize_parameters)
+  default = {
+    AWS_ACCESS_KEY_ID : var.AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY : var.AWS_SECRET_ACCESS_KEY
+  }
 }
 locals {
   # Fill first and foremost your Hetzner API token, found in your project, Security, API Token, of type Read & Write.
