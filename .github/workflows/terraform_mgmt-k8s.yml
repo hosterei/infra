@@ -1,6 +1,7 @@
 name: "terraform mgmt-k8s"
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
