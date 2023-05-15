@@ -1,9 +1,9 @@
 variable "extra_kustomize_parameters" {
-  sensitive: true
-  default = ""
+  sensitive = true
+  default   = {}
 }
 variable "decoded_extra_kustomize_parameters" {
-  default =  jsondecode(var.extra_kustomize_parameters)
+  default = jsondecode(var.extra_kustomize_parameters)
 }
 locals {
   # Fill first and foremost your Hetzner API token, found in your project, Security, API Token, of type Read & Write.
