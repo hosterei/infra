@@ -28,5 +28,5 @@ override.tf.json
 # example: *tfplan*
 
 
-
+id_*
 *.DS_Store*

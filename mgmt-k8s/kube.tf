@@ -94,7 +94,6 @@ module "kube-hetzner" {
 
   # If you want to disable the Traefik ingress controller, you can can set this to "false". Default is "true".
   ingress_controller = "none"
-
 }
 
 
