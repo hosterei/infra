@@ -3,10 +3,10 @@ kind: Kustomization
 
 resources:
   # upstream repo
-  - "https://github.com/hosterei/gitops.git/"
+  - https://github.com/hosterei/gitops.git/
 
-patchesStrategicMerge:
-  - |-
+patches:
+- patch: |-
     apiVersion: v1
     kind: Secret
     metadata:
