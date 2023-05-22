@@ -67,10 +67,10 @@ module "kube-hetzner" {
       location    = "nbg1",
       labels      = [],
       taints      = [],
-      count       = 3
+      count       = 0
     },
     {
-      name        = "hosterei-mgmt",
+      name        = "hosterei-mgmt-0",
       server_type = "cpx11",
       location    = "nbg1",
       labels = [
