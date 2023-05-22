@@ -67,7 +67,7 @@ module "kube-hetzner" {
       location    = "nbg1",
       labels      = [],
       taints      = [],
-      count       = 0
+      count       = 3
     },
     {
       name        = "hosterei-mgmt-0",
