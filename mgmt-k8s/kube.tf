@@ -53,7 +53,7 @@ module "kube-hetzner" {
     {
       name        = "control-plane-fsn1",
       server_type = "cpx21",
-      location    = "nbg1",
+      location    = "fsn1",
       labels      = [],
       taints      = [],
       count       = 1
@@ -64,22 +64,22 @@ module "kube-hetzner" {
     {
       name        = "hosterei-wrk-0",
       server_type = "cx21",
-      location    = "nbg1",
+      location    = "fsn1",
       labels      = [],
       taints      = [],
-      count       = 3
+      count       = 1
     },
     {
       name        = "hosterei-mgmt-0",
       server_type = "cpx11",
-      location    = "nbg1",
+      location    = "fsn1",
       labels = [
         "node.kubernetes.io/server-usage=mgmt"
       ],
       taints = [
         "server-usage=mgmt:PreferNoSchedule"
       ],
-      count = 1
+      count = 3
     }
   ]
 
