@@ -79,7 +79,7 @@ module "kube-hetzner" {
       taints = [
         "server-usage=mgmt:PreferNoSchedule"
       ],
-      count = 1
+      count = 3
     }
   ]
 
@@ -100,6 +100,20 @@ module "kube-hetzner" {
   # * LB location and type, the latter will depend on how much load you want it to handle, see https://www.hetzner.com/cloud/load-balancer
   load_balancer_type     = "lb11"
   load_balancer_location = "nbg1"
+
+  # define your cni
+  cni_plugin = "cilium"
+  cilium_hubble_enabled = true
+  cilium_values = <<EOF
+kubeProxyReplacement: "false"
+bpf-lb-sock-hostns-only: true
+socketLB:
+  hostNamespaceOnly: true
+cni:
+  exclusive: false
+hubble:
+  enabled: true
+EOF
 
   # If you want to disable the Traefik ingress controller, you can can set this to "false". Default is "true".
   ingress_controller = "none"
