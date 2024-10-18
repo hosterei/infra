@@ -63,7 +63,7 @@ module "kube-hetzner" {
   agent_nodepools = [
     {
       name        = "hosterei-wrk-0",
-      server_type = "cx21",
+      server_type = "cx22",
       location    = "fsn1",
       labels      = [],
       taints      = [],
@@ -79,7 +79,7 @@ module "kube-hetzner" {
       taints = [
         "server-usage=mgmt:PreferNoSchedule"
       ],
-      count = 3
+      count = 1
     }
   ]
 
